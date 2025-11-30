@@ -7,31 +7,20 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 
-<body >
+<body>
     <div id="vue-app">
-        <nav :style="{backgroundColor}">
-            <div>
-                <a href="#">my vue</a>
-                <ul>
-                    <li v-for="(page, index) in pages" :key="index">
-                        <a 
-                        aria-current="page"
-                        :href="page.link.url"
-                        :title="`This link goes to the ${page.link.text} page`"
-                        @click.prevent="activePage = index, current_index = index"
-                        >{{ page.link.text }} </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        
-        <form>
-            <button
-            @click.prevent="toggleBackground()">toggle navbar </button>
-        </form>
+
+        <navbar
+        :pages="pages"
+        :background-color="backgroundColor"
+        :active-page="activePage"
+        :nav-link-click="(index) => activePage = index"
+        ></navbar>
         
         <page-viewer 
-            :page="pages[activePage]">
+        :page="pages[activePage]">
+        </page-viewer>
+
     </div>
 </body>
 
@@ -55,15 +44,6 @@
                 ]
             };
         },
-        methods: {
-            toggleBackground () {
-                if (this.backgroundColor == "blue") {
-                     this.backgroundColor = "red";
-                } else {
-                    this.backgroundColor = "blue";
-                }
-            }
-        }
     })
     
     app.component('page-viewer', {
@@ -72,10 +52,50 @@
         <div>
             <h1>{{page.pageTitle}}</h1>
             <p>{{page.content}}</p>
-        </div>  
-        `
+            </div>  
+            `
+        });
+        
+    app.component('navbar', {
+        props: ['backgroundColor', 'pages', 'activePage', 'navLinkClick'],
+        template: `
+        <nav :style="{backgroundColor}">
+            <div>
+                <a href="#">my vue</a>
+                <ul>
+                    <li v-for="(page, index) in pages" :key="index">
+                        <a 
+                        aria-current="page"
+                        :href="page.link.url"
+                        :title="\`This link goes to the \${page.link.text} page\`"
+                        @click.prevent="navLinkClick(index)"
+                        >{{ page.link.text }} </a>
+                        </li>
+                        </ul>
+                        </div>
+                        </nav>
+                        
+                        <form>
+                            <button
+                            @click.prevent="toggleBackground()">toggle navbar </button>
+                            </form>
+                            `,
+        data () {
+            return {
+                backgroundColor: 'blue'
+            }
+        },
+        methods: {
+            toggleBackground () {
+                if (this.backgroundColor == "blue") {
+                        this.backgroundColor = "red";
+                } else {
+                    this.backgroundColor = "blue";
+                }
+            }
+        }
     });
-
-    app.mount('#vue-app');
-</script>
+        
+        app.mount('#vue-app');
+        </script>
 </html>
