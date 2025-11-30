@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDG 2</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body id="vue-app">
+    <div>
+        <nav :style="{backgroundColor}">
+            <div>
+                <a href="#">my vue</a>
+                <ul>
+                    <li v-for="(page, index) in pages" :key="index">
+                        <a 
+                        aria-current="page"
+                        :href="page.link.url"
+                        :title="`This link goes to the ${page.link.text} page`"
+                        @click.prevent="activePage = index, current_index = index"
+                        >{{ page.link.text }}  </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <form>
+            <button
+            @click.prevent="toggleBackground()">toggle navbar </button>
+        </form>
+        
+        <page-viewer 
+            page-title="Page title 2" 
+            page-content="Page Content">
+        </page-viewer>
+    </div>
+</body>
+
+<script>
+    let app = Vue.createApp({
+        data() {
+            return {
+                current_index: 0,
+                backgroundColor: "blue",
+                activePage: 0,
+                pages: [
+                    {link:{text: 'Home', url: 'index.html'},
+                    pageTitle: 'home Page',
+                    content: 'This home content'},
+                    {link:{text: 'About', url: 'about.html'},
+                    pageTitle: 'about page',
+                    content: 'lorem ipsum'}, 
+                    {link:{text: 'Contact', url: 'contact.html'},
+                    pageTitle: 'contact page',
+                    content: 'lorem ipsiiiiuuuum',}
+                ]
+            };
+        },
+        methods: {
+            toggleBackground () {
+                if (this.backgroundColor == "blue") {
+                     this.backgroundColor = "red";
+                } else {
+                    this.backgroundColor = "blue";
+                }
+            }
+        }
+    })
+    
+    app.component('page-viewer', {
+        props: ['pageTitle', 'pageContent'],
+        template: `
+        <div>
+            <h1>{{pageTitle}}</h1>
+            <p>{{pageContent}}</p>
+        </div>  
+        `
+    });
+
+    app.mount('#vue-app');
+</script>
+</html>
