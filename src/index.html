@@ -59,27 +59,27 @@
     app.component('navbar', {
         props: ['backgroundColor', 'pages', 'activePage', 'navLinkClick'],
         template: `
-        <nav :style="{backgroundColor}">
-            <div>
-                <a href="#">my vue</a>
-                <ul>
-                    <li v-for="(page, index) in pages" :key="index">
-                        <a 
-                        aria-current="page"
-                        :href="page.link.url"
-                        :title="\`This link goes to the \${page.link.text} page\`"
-                        @click.prevent="navLinkClick(index)"
-                        >{{ page.link.text }} </a>
+            <nav :style="{backgroundColor}">
+                <div>
+                    <a href="#">my vue</a>
+                    <ul>
+                        <li v-for="(page, index) in pages" :key="index">
+                            <a 
+                            aria-current="page"
+                            :href="page.link.url"
+                            :title="\`This link goes to the \${page.link.text} page\`"
+                            @click.prevent="navLinkClick(index)"
+                            >{{ page.link.text }} </a>
                         </li>
-                        </ul>
-                        </div>
-                        </nav>
-                        
-                        <form>
-                            <button
-                            @click.prevent="toggleBackground()">toggle navbar </button>
-                            </form>
-                            `,
+                    </ul>
+                </div>
+            </nav>
+                            
+            <form>
+                <button
+                @click.prevent="toggleBackground()">toggle navbar </button>
+            </form>
+            `,
         data () {
             return {
                 backgroundColor: 'blue'
