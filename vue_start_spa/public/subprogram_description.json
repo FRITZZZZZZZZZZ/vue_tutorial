@@ -1,0 +1,52 @@
+[{
+    "name": "edit_dat.py",
+    "input": { 
+        "parameterNamesLogical": [
+            "file",
+            "editing_start_index",
+            "editing_end_index",
+            "editing_input"
+        ],
+        "parameterType": [
+            ".dat",
+            "int",
+            "int",
+            "float"
+        ],
+        "parameterConstraints": [
+            "None",
+            "None",
+            "None",
+            "None"
+        ],
+        "parameterLabel": [
+            "file to be edited",
+            "start editing at",
+            "end editing at",
+            "value to be inserted"
+        ],
+        "parameterExplanation": [
+            "This file will be subject to the editing process.",
+            "This is the cursor position from which the insertion value will be\n inserted. You can determine it by opening the file in any text editor \nand display the cursor position.",
+            "This is the cursor position from which the file will coninue as normal.",
+            "Any text between the 'start editing at' and 'end editing at' tag\nwill be replaced by this value."
+        ]
+    },
+    "output": {
+        "parameterNamesLogical": [
+            "file_edited"
+        ],
+        "parameterType": [
+            ".dat"
+        ],
+        "parameterConstraints": [
+            "None"
+        ],
+        "parameterLabel": [
+            "output .dat file"
+        ],
+        "parameterExplanation": [
+            "This is the result of the editing process."
+        ]
+    }
+}]

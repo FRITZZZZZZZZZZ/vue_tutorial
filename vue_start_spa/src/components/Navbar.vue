@@ -1,5 +1,5 @@
 <template>
-    <nav :style="{backgroundColor}">
+    <nav :style="{backgroundColor: theme}">
         <div class="container-fluid">
             <a href="#" class="navbar-brand">my vue</a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -16,7 +16,7 @@
                     
     <form>
         <button
-        @click.prevent="toggleBackground()">toggle navbar </button>
+        @click.prevent="toggleBackground()">toggle nav bar</button>
     </form>
 </template>
 
@@ -26,18 +26,33 @@
         components: {
             NavBarLink
         },
-        props: ['backgroundColor', 'pages', 'activePage', 'navLinkClick'],
+        created() {
+            this.getThemeSetting();
+        },
+        props: ['pages', 'activePage', 'navLinkClick'],
         data () {
             return {
-                backgroundColor: 'blue'
+                theme: 'blue'
             };
         },
         methods: {
             toggleBackground () {
-                if (this.backgroundColor == "blue") {
-                        this.backgroundColor = "red";
+                if (this.theme == "blue") {
+                        this.theme = "red";
                 } else {
-                    this.backgroundColor = "blue";
+                    this.theme = "blue";
+                }
+
+                this.storeThemeSetting();
+            },
+            storeThemeSetting () {
+                localStorage.setItem('theme' ,this.theme);
+            },
+            getThemeSetting () {
+                let theme = localStorage.getItem('theme', this.theme);
+
+                if (theme) {
+                    this.theme = theme;
                 }
             }
         }

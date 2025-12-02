@@ -1,28 +1,37 @@
 <template>
     <navbar
     :pages="pages"
-    :background-color="backgroundColor"
     :active-page="activePage"
     :nav-link-click="(index) => activePage = index"
     ></navbar>
     
-    <page-viewer 
+    <!--<page-viewer 
     v-show="pages.length > 0"
     :page="pages[activePage]">
-    </page-viewer>
+    </page-viewer> 
+
+    <create-page>
+        :page-created="pageCreated" 
+    </create-page> -->
+    <subprogram></subprogram>
 </template>
 
 <script>
 import NavBarLink from './components/NavBarLink.vue'
 
+import Subprogram from './components/Subprogram.vue';
+
 import Navbar from './components/Navbar.vue';
 
 import PageViewer from './components/PageViewer.vue';
 
+import CreatePage from './components/CreatePage.vue';
 export default {
     components: {
         Navbar,
-        PageViewer
+        PageViewer,
+        CreatePage,
+        Subprogram
     },
     created() {
         this.getPages();
@@ -40,6 +49,9 @@ export default {
 
             this.pages = data;
         }
+    },
+    pageCreated(pageObj) {
+        console.log(pageObj);
     }
 }
 </script>
