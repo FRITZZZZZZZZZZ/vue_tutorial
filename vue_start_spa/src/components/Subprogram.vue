@@ -1,16 +1,20 @@
 <template>
-    <div id="color-coding">
-        <ol>
-            <li>
-                <h2>Input parameter</h2>
-                <h3>Type</h3>
+    <div class="color-coding" v-for="(subprogram) in subprograms">
+        <ol class="horizontal-list">
+            <li v-for="(parameterLabel, index) in subprogram.input.parameterLabel" :key="index">
+                <div title="Input API definition of this subprogram.">
+                    <h2>{{ subprogram.input.parameterLabel[index] }}</h2>
+                    <h3>{{ subprogram.input.parameterType[index] }}</h3>
+                </div>
             </li>
         </ol>
-            <h1>Subprogram name</h1>
+        <h1>{{ subprogram.name }}</h1>
         <ol>
-            <li>
-                <h2>Output parameter</h2>
-                <h3>Output parameter type</h3>
+            <li v-for="(parameterLabel, index) in subprogram.output.parameterLabel" :key="index">
+                <div title="Output API definition of this subprogram">
+                    <h2>{{ subprogram.output.parameterLabel[index] }}</h2>
+                    <h3>{{ subprogram.output.parameterType[index] }}</h3>
+                </div>
             </li>
         </ol>
     </div>
@@ -18,24 +22,29 @@
 
 <script>
     export default {    
-        data() {
-            return {
-                subprograms: [],
-                files: []
-            };
-        },
-        methods: {
-            async getSubprograms() {
-                let res = await fetch('subprogram_description.json');
-                let subprogramData = await res.json();
-                this.subprograms = subprogramData;
-            },
-            async getFiles() {
-                let res = await fetch('files_description.json');
-                let fileData = await res.json();
-                this.files = fileData;
-            }
-        },
-
+        props: ['subprograms']
     }
 </script>   
+
+<style scoped>
+.color-coding {
+  border: 4px solid blue;
+  border-radius: 10px;
+  padding: 10px;   /* innen Platz für Content */
+  margin: 10px 0;  /* Abstand zu anderen Elementen */
+  width: 30%;
+}
+h2 {
+    margin: 5px;
+    font-size: 30px;
+    border: 5px solid grey;
+    border-radius: 5px;
+}
+h3 {    
+    margin: 5px;
+    font-size: 20px;
+    border: 5px solid grey;
+    border-radius: 5px;
+}
+
+</style>
