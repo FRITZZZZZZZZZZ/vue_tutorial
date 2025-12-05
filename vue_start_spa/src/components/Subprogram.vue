@@ -1,22 +1,35 @@
-<template>
-    <div class="color-coding" v-for="(subprogram) in subprograms">
-        <ol class="horizontal-list">
-            <li v-for="(parameterLabel, index) in subprogram.input.parameterLabel" :key="index">
-                <div title="Input API definition of this subprogram.">
-                    <h2>{{ subprogram.input.parameterLabel[index] }}</h2>
-                    <h3>{{ subprogram.input.parameterType[index] }}</h3>
+<template >
+    <h1>Programs</h1>
+    <div 
+        class="subprogram-selector">
+        <div 
+            class="subprogram" 
+            v-for="(subprogram) in subprograms"
+            >
+            <span 
+                :key="index" 
+                title="Input API definition of this subprogram."
+                class="signatur">
+                <div 
+                    class="signatur-element" 
+                    :title="subprogram.input.parameterExplanation[index]"
+                    v-for="(parameterLabel, index) in subprogram.input.parameterLabel" 
+                    >
+                    <h2 class="parameter-label">{{ subprogram.input.parameterLabel[index] }}</h2>
+                    <h3 class="parameter-type">{{ subprogram.input.parameterType[index] }}</h3>
                 </div>
-            </li>
-        </ol>
-        <h1>{{ subprogram.name }}</h1>
-        <ol>
-            <li v-for="(parameterLabel, index) in subprogram.output.parameterLabel" :key="index">
-                <div title="Output API definition of this subprogram">
-                    <h2>{{ subprogram.output.parameterLabel[index] }}</h2>
-                    <h3>{{ subprogram.output.parameterType[index] }}</h3>
+            </span>
+            <h1 class="subprogram-name">{{ subprogram.name }}</h1>
+            <span v-for="(parameterLabel, index) in subprogram.output.parameterLabel" 
+                :key="index" 
+                title="Output API definition of this subprogram"
+                class="signatur">
+                <div class="signatur-element" :title="subprogram.output.parameterExplanation[index]">
+                        <h2 class="parameter-label">{{ subprogram.output.parameterLabel[index] }}</h2>
+                        <h3 class="parameter-type">{{ subprogram.output.parameterType[index] }}</h3>
                 </div>
-            </li>
-        </ol>
+            </span>
+        </div>
     </div>
 </template>
 
@@ -27,24 +40,55 @@
 </script>   
 
 <style scoped>
-.color-coding {
-  border: 4px solid blue;
-  border-radius: 10px;
-  padding: 10px;   /* innen Platz für Content */
-  margin: 10px 0;  /* Abstand zu anderen Elementen */
-  width: 30%;
+*{
+    box-sizing: border-box;
 }
-h2 {
-    margin: 5px;
-    font-size: 30px;
-    border: 5px solid grey;
-    border-radius: 5px;
+h1 {
+    font-weight: bold;
+    font-size: 35px;
 }
-h3 {    
-    margin: 5px;
-    font-size: 20px;
-    border: 5px solid grey;
+.subprogram-selector {
+    overflow-y: auto; 
+}
+.subprogram {
+  border: 5px solid rgb(26, 26, 80);
+  border-radius: 10px;     
+  width: auto;
+  padding: 3px;
+  margin: 3px;
+  display: flex;
+  flex-direction: column;
+}
+.signatur {
+    display: flex;
+    flex-direction: column;
+}
+.signatur-element {
+    border: 2px solid gray;
     border-radius: 5px;
+    padding: 3px;
+    margin: 1px;
+    width: auto;
+    display: inline-block;
+}
+.subprogram-name {
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+}
+.parameter-label {
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: left;
+    margin: 0px;
+    padding: 3px;
+    margin: 1px;
+}
+.parameter-type {    
+    font-size: 10px;
+    border-radius: 5px;
+    text-align: left;
 }
 
 </style>

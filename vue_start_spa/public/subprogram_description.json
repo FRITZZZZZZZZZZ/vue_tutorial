@@ -49,4 +49,62 @@
             "This is the result of the editing process."
         ]
     }
-}]
+},
+{
+    "name": "edit_csv.py",
+    "input": {
+        "parameterNamesLogical": [
+            "file",
+            "header",
+            "target_parameter",
+            "target_parameter_value_constraint",
+            "target_value"
+        ],
+        "parameterType": [
+            ".csv",
+            "string array",
+            "string", 
+            "float",
+            "float"
+        ],
+        "parameterConstraints": [
+            "None",
+            "None",
+            "None",
+            "None",
+            "None"
+        ],
+        "parameterLabel": [
+            "file to be edited",
+            "file data header",
+            "header field to be edited",
+            "only edit when value is",
+            "replace this value with"
+        ],
+        "parameterExplanation": [
+            "the file in which any value of the target parameter matches\nthe value contraint will be replaced by the target value.",
+            "header attributes of the file data",
+            "data field to be edited",
+            "value that must prepopulate the field in order for it to be edited",
+            "value that will replace the constraint value"
+        ]
+    },
+    "output": {
+        "parameterNamesLogical": [
+            "file_edited"
+        ],
+        "parameterType": [
+            ".csv"
+        ],
+        "parameterConstraints": [
+            "None"
+        ],
+        "parameterLabel": [
+            "output .csv file"
+        ],
+        "parameterExplanation": [
+            "This is the result of the editing process."
+        ]
+    }
+}
+]

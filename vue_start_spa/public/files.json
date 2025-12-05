@@ -1,0 +1,10 @@
+[{
+    "name": "input_file.dat",
+    "format": ".dat",
+    "relativePath": "pfad_dat"
+},
+{
+    "name": "blank.t51",
+    "format": "t51",
+    "relativePath": "pfad_t51"
+}]
