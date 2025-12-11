@@ -32,6 +32,14 @@
       {{ item.title }}
     </div>
   </div>
+  <div>
+    <h1>
+      Drop counter
+    </h1>
+    <p>item A {{ counterA }}</p>
+    <p>item B {{ counterB }}</p>
+    <p>item C {{ counterC }}</p>
+  </div>
 </template>
 
  <script> 
@@ -45,25 +53,41 @@ export default {
       { id: 2, title: 'Item C', list: 2 },
     ])
 
+    const counterA = ref(0)
+    const counterB = ref(0)
+    const counterC = ref(0)
+
     const getList = (list) => {
       return items.value.filter((item) => item.list == list)
     }
 
     const startDrag = (event, item) => {
       console.log(item)
-      event.dataTransfer.setData('itemID', item.id)
+      event.dataTransfer.setData('title', item.title)
     }
 
     const onDrop = (event, list) => {
-      const itemID = event.dataTransfer.getData('itemID')
-      const item = items.value.find((item) => item.id == itemID)
-      item.list = list
+      const itemTitle = event.dataTransfer.getData('title')
+      switch(itemTitle) {
+        case 'Item A':
+          counterA.value++;
+          break;
+        case 'Item B':
+          counterB.value++
+          break;
+        case 'Item C':
+          counterC.value++
+          break;
+      }
     }
 
     return {
       getList,
       startDrag,
-      onDrop
+      onDrop,
+      counterA,
+      counterB,
+      counterC
     }
   }
 }
