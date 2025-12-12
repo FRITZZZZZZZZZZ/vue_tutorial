@@ -32,7 +32,9 @@
       {{ item.title }}
     </div>
   </div>
+
   <div>
+    <p>impelmenting flow of information from drag and drop</p>
     <h1>
       Drop counter
     </h1>
@@ -40,10 +42,31 @@
     <p>item B {{ counterB }}</p>
     <p>item C {{ counterC }}</p>
   </div>
+
+  <p>creating a scalable drop zone</p>
+  <div 
+    class="multi-drop-row"
+    v-for="(dropBoxRow, rowIndex) in dropBoxRows"
+    :key="rowIndex"
+    >
+    <div
+      class="multi-drop-box"
+      v-for="(dropBox, boxIndex) in dropBoxRow.dropBoxes"
+      :key="boxIndex"
+      @drop="dropToBox($event, [dropBoxRow.rowIndex, dropBox.boxIndex])"
+      @dragenter.prevent
+      @dragover.prevent
+      >
+      {{ dropBoxRow.rowIndex }}
+      {{ dropBox.boxIndex }}
+      <h1>{{ dropBox.content }}</h1>
+    </div>
+  </div>
 </template>
 
  <script> 
 import { ref } from 'vue'
+import { reactive } from 'vue';
 
 export default {
   setup() {
@@ -56,6 +79,40 @@ export default {
     const counterA = ref(0)
     const counterB = ref(0)
     const counterC = ref(0)
+
+    const dropBoxRows = reactive([
+      {
+        rowIndex: 0,
+        dropBoxes: [
+          {
+            boxIndex: 0,
+            content: "kein content"
+          },
+          {
+            boxIndex: 1,
+            content: "kein content"
+          }
+        ]
+      },
+      {
+        rowIndex: 1,
+        dropBoxes:[
+          {
+            boxIndex: 0,
+            content: "kein content"
+          }
+        ]
+      },
+      {
+        rowIndex: 2,
+        dropBoxes: [
+          {
+            boxIndex: 0,
+            content: "kein content"
+          }
+        ]
+      }
+    ])
 
     const getList = (list) => {
       return items.value.filter((item) => item.list == list)
@@ -81,13 +138,28 @@ export default {
       }
     }
 
+    const dropToBox = (event, index) => {
+      const rowIndex = index[0]
+      const boxIndex = index[1]
+
+      console.log(rowIndex, boxIndex)
+
+      const row = dropBoxRows[rowIndex]
+      const box = row.dropBoxes[boxIndex]
+
+      const itemTitle = event.dataTransfer.getData('title')
+      box.content = itemTitle
+    }
+
     return {
       getList,
       startDrag,
       onDrop,
+      dropToBox,
       counterA,
       counterB,
-      counterC
+      counterC,
+      dropBoxRows
     }
   }
 }
@@ -116,5 +188,22 @@ export default {
 
 .drag-el:nth-last-of-type(1) {
   margin-bottom: 0;
+}
+.multi-drop-row{
+  background-color: blueviolet;
+  width: auto;
+  height: auto;
+  min-width: 10px;
+  min-height: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.multi-drop-box{
+  background-color: wheat;
+  width: auto;
+  height: auto;
+  min-width: 10px;
+  min-height: 10px;
 }
 </style>
