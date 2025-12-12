@@ -44,12 +44,19 @@
   </div>
 
   <p>creating a scalable drop zone</p>
+  <button
+    @click="addRow()">
+    add row
+  </button>
   <div 
-    class="multi-drop-row"
-    v-for="(dropBoxRow, rowIndex) in dropBoxRows"
-    :key="rowIndex"
-    >
+  class="multi-drop-row"
+  v-for="(dropBoxRow, rowIndex) in dropBoxRows"
+  :key="rowIndex"
+  >
     <div
+    class="drop-boxes"
+    >
+      <div
       class="multi-drop-box"
       v-for="(dropBox, boxIndex) in dropBoxRow.dropBoxes"
       :key="boxIndex"
@@ -57,10 +64,31 @@
       @dragenter.prevent
       @dragover.prevent
       >
-      {{ dropBoxRow.rowIndex }}
-      {{ dropBox.boxIndex }}
-      <h1>{{ dropBox.content }}</h1>
+        {{ dropBoxRow.rowIndex }}
+        {{ dropBox.boxIndex }}
+        <h1>{{ dropBox.content }}</h1>
+        <button
+        @click="deleteBox(dropBoxRow.rowIndex, dropBox.boxIndex)"
+        >
+          delete box
+        </button>
+      </div>
     </div>
+
+    <div
+      class="row-controls">
+      <button
+        @click="deleteRow(dropBoxRow.rowIndex)"
+        >
+        remove row
+      </button>
+      <button
+        @click="addSlot(dropBoxRow.rowIndex)"
+        >
+        add slot
+      </button>
+    </div>
+
   </div>
 </template>
 
@@ -80,39 +108,7 @@ export default {
     const counterB = ref(0)
     const counterC = ref(0)
 
-    const dropBoxRows = reactive([
-      {
-        rowIndex: 0,
-        dropBoxes: [
-          {
-            boxIndex: 0,
-            content: "kein content"
-          },
-          {
-            boxIndex: 1,
-            content: "kein content"
-          }
-        ]
-      },
-      {
-        rowIndex: 1,
-        dropBoxes:[
-          {
-            boxIndex: 0,
-            content: "kein content"
-          }
-        ]
-      },
-      {
-        rowIndex: 2,
-        dropBoxes: [
-          {
-            boxIndex: 0,
-            content: "kein content"
-          }
-        ]
-      }
-    ])
+    const dropBoxRows = reactive([])
 
     const getList = (list) => {
       return items.value.filter((item) => item.list == list)
@@ -151,11 +147,49 @@ export default {
       box.content = itemTitle
     }
 
+    const addRow = () => {
+      dropBoxRows.push(
+        {
+          rowIndex: dropBoxRows.length,
+          dropBoxes: [
+            {
+              boxIndex: 0,
+              content: "None"
+            }
+          ]
+        }
+      )
+    }
+
+    const deleteRow = (rowIndex) => {
+      dropBoxRows.splice(rowIndex, 1)
+    }
+
+    const deleteBox = (rowIndex, boxIndex) => {
+      dropBoxRows[rowIndex].dropBoxes.splice(boxIndex, 1)
+      if (dropBoxRows[rowIndex].dropBoxes.length == 0) {
+        dropBoxRows.splice(0, 1)
+      }
+    }
+
+    const addSlot = (rowIndex) => {
+      const currentBoxIndex = dropBoxRows[rowIndex].dropBoxes.length
+      const row = dropBoxRows[rowIndex]
+      row.dropBoxes.push({
+        boxIndex: currentBoxIndex,
+        content: "None"
+      })
+    }
+
     return {
       getList,
       startDrag,
       onDrop,
       dropToBox,
+      addRow,
+      addSlot,
+      deleteRow,
+      deleteBox,
       counterA,
       counterB,
       counterC,
@@ -190,20 +224,28 @@ export default {
   margin-bottom: 0;
 }
 .multi-drop-row{
-  background-color: blueviolet;
-  width: auto;
-  height: auto;
+  display: grid;
+  grid: 0.8 0.2;
+}
+.multi-drop-box{
+  background-color: wheat;
   min-width: 10px;
   min-height: 10px;
+  width: auto;
+  height: auto;
+}
+.drop-boxes{
+  width: 80%;
+  background-color: blueviolet;
+  min-width: 10px;
+  min-height: 10px;
+  height: auto;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
-.multi-drop-box{
-  background-color: wheat;
-  width: auto;
-  height: auto;
-  min-width: 10px;
-  min-height: 10px;
+.row-controls {
+  display: inline;
+  width: 20%;
 }
 </style>
